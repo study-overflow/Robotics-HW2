@@ -2,7 +2,7 @@
 
 **学号：2023010916  姓名：张章**
 
-[!demo](assets/heart_trajectory.gif)
+![demo](assets/heart_trajectory.gif)
 
 ## 文件结构
 
