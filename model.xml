@@ -1,0 +1,42 @@
+<mujoco model="cartesian_admittance">
+  <option gravity="0 0 -9.81" timestep="0.002"/>
+
+  <default>
+    <geom contype="0" conaffinity="0"/>
+  </default>
+
+  <worldbody>
+    <!-- Ground plane for visual reference -->
+    <geom name="ground" type="plane" size="3 3 0.01" pos="0 0 -2.5" rgba="0.3 0.3 0.3 1"/>
+
+    <!-- Base frame -->
+    <body name="base" pos="0 0 0">
+      <!-- Horizontal prismatic joint (X axis) -->
+      <joint name="x_joint" type="slide" axis="1 0 0" limited="true" range="-1.5 1.5"/>
+      <geom name="x_rail" type="box" size="1.5 0.03 0.03" rgba="0.4 0.4 0.4 1"/>
+
+      <body name="carriage" pos="0 0 0">
+        <!-- Vertical prismatic joint (Z axis) -->
+        <joint name="z_joint" type="slide" axis="0 0 1" limited="true" range="-1.5 1.5"/>
+        <geom name="z_rail" type="box" size="0.03 0.03 1.5" rgba="0.4 0.4 0.4 1"/>
+
+        <body name="end_effector" pos="0 0 0">
+          <!-- The 100kg cube -->
+          <geom name="cube" type="box" size="0.3 0.3 0.3" mass="100" rgba="0.85 0.3 0.3 1"/>
+          <!-- Handle where human applies force -->
+          <site name="handle" type="sphere" size="0.06" pos="0.35 0 0" rgba="0.2 0.6 1 0.8"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <!-- Torque-controlled motors for direct force control -->
+    <motor name="motor_x" joint="x_joint" gear="1" ctrllimited="true" ctrlrange="-2000 2000"/>
+    <motor name="motor_z" joint="z_joint" gear="1" ctrllimited="true" ctrlrange="-2000 2000"/>
+  </actuator>
+
+  <sensor>
+    <force name="handle_force" site="handle"/>
+  </sensor>
+</mujoco>
